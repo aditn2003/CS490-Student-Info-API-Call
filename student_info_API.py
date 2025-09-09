@@ -1,14 +1,14 @@
 import requests 
 
-ucid = input("Enter your UCID:")
-first = input("Enter your first name:")
-last = input("Enter your last name:")
-github = input("Enter your github username:")
-discord = input("Enter your discord user name:")
-cartoon = input("Enter your favorite cartoon:")
-language = input("Enter your favorite language:")
-game = input("Enter your favorite movie, game or book:")
-section = input("Enter your section:")
+ucid = input("Enter your UCID: ")
+first = input("Enter your first name: ")
+last = input("Enter your last name: ")
+github = input("Enter your github username: ")
+discord = input("Enter your discord user name: ")
+cartoon = input("Enter your favorite cartoon: ")
+language = input("Enter your favorite language: ")
+game = input("Enter your favorite movie, game or book: ")
+section = input("Enter your section: ")
 
 data = {
     "UCID": ucid,
@@ -22,7 +22,18 @@ data = {
     "section": section
 }
 
-r = requests.post('https://httpbin.org/post', json = data)
+status = {
+    400: "Bad Request – check data format",
+    403: "Forbidden",
+    404: "Not Found - check API endpoint",
+    500: "Server Error – try again later."
+}
 
-print(r.status_code)
-print(r.text)
+try:
+    r = requests.post('https://httpbin.org/post', json = data)
+    r.raise_for_status()
+    print("Success:", r.status_code)
+    print(r.json())
+except requests.exceptions.HTTPError as e:
+    code = e.response.status_code
+    print("Error Code", code, status.get(code))

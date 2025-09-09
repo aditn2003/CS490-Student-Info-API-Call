@@ -30,7 +30,7 @@ status = {
 }
 
 try:
-    r = requests.post('https://httpbin.org/post', json = data)
+    r = requests.post('https://student-info-api.netlify.app/.netlify/functions/submit_student_info', json = data)
     r.raise_for_status()
     print("Success:", r.status_code)
     print(r.json())
